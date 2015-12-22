@@ -18,7 +18,6 @@ from django.contrib import admin
 
 from Machine import views
 
-
 urlpatterns = [
     url(r'^$', views.coding),
     url(r'^result/', views.result, name="this_result"),
