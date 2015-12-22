@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{#    The source is ...#}
+{#    <br/>#}
+{#        {% autoescape on %}#}
+{#            {{ Text | linebreaksbr}}#}
+{#        {% endautoescape %}#}
+{#    <br/>#}
+    <div>
+    {% if Debug %}
+        {% autoescape on %}
+            {{ Debug | linebreaksbr}}
+        {% endautoescape %}
+    {% endif %}
+    </div>
+
+    <div>
+    {% if Ans %}
+        {% autoescape on %}
+            {{ Ans | linebreaksbr}}
+        {% endautoescape %}
+    {% endif %}
+    </div>
+</body>
+</html>

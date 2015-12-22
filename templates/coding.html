@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% csrf_token %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load staticfiles %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+    <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+    <script src="{% static "codemirror/mode/javascript/javascript.js" %}"></script>
+    <script src="{% static "codemirror/mode/clike/clike.js" %}"></script>
+    <link rel="stylesheet" href="{% static "codemirror/theme/dracula.css" %}">
+    <script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
+    <script src="{% static "codemirror/addon/selection/active-line.js" %}"></script>
+    <title>Title</title>
+</head>
+<body>
+    <textarea class="Coding_Text" style="width:400px;height:200px;" name="source" autofocus="autofocus"></textarea>
+    <br/>
+    <button class="submit">
+        제출
+    </button>
+    <div class="Result_load">
+    </div>
+</body>
+</html>
+<script>
+      var myCodeMirror = CodeMirror.fromTextArea(document.getElementsByName('source').item(0),{
+        lineNumbers: true,
+        mode: "text/x-c++src",
+{#        theme: "dracula",#}
+        styleActiveLine: true,
+        matchBrackets: true
+    });
+
+    $(document).ready(function(){
+       $(".submit").click(function(){
+           $text = myCodeMirror.getValue();
+           $(".Result_load").load("{% url 'this_result' %}",{Coding_Text:$text, csrfmiddlewaretoken:'{{csrf_token}}'});
+       });
+    });
+
+
+</script>
