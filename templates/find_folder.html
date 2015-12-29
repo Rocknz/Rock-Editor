@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div>
+            {{ Link }}
+        </div>
+        the folders
+        <div>
+            {% if Link !=  "" %}
+                <button class="folder_button" value="cd ..">..</button>
+            {% endif %}
+            {% for n_folder in Folders %}
+                <button class="folder_button" value="cd {{ n_folder }}"> {{ n_folder }}</button>
+            {% endfor %}
+            <br/>
+        </div>
+        the files
+        <div>
+            {% for n_files in Files %}
+                <button class="file_button" value="{{ Link }}/{{ n_files }}">{{ n_files }} </button>
+            {% endfor %}
+        </div>
+    </body>
+</html>
+<script>
+    $(document).ready(function($){
+        $(".folder_button").click(function(){
+            $str = this.value;
+            $(".folder_layer").load("{% url 'folder' %}",{ order : $str, path: "{{ Link }}" , csrfmiddlewaretoken:'{{csrf_token}}'});
+        });
+        $(".file_button").click(function(){
+            $str = this.value;
+            $(".source_layer").load("{% url 'coding' %}",{ path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
+        });
+        resize_source();
+    });
+</script>

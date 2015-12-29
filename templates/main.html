@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" style="height:95%">
+<head>
+    <meta charset="UTF-8">
+    {% load staticfiles %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+    <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+    <script src="{% static "codemirror/mode/javascript/javascript.js" %}"></script>
+    <script src="{% static "codemirror/mode/clike/clike.js" %}"></script>
+    <link rel="stylesheet" href="{% static "codemirror/theme/dracula.css" %}">
+    <script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
+    <script src="{% static "codemirror/addon/selection/active-line.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/coding_machine_main.css" %}">
+    <title>Title</title>
+</head>
+<body style="height: 100%;">
+    <div class="toggle_btn" value="close">
+        <div class="triangle">
+        </div>
+    </div>
+    <div style="height:100%;">
+        <div class="folder_layer">
+        </div>
+        <div class="source_layer">
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function($){
+        $(".folder_layer").load("{% url 'folder' %}");
+        /*$(".source_layer").load("{% url 'coding' %}");*/
+        $(".toggle_btn").click(function(){
+            $btn = this;
+            $str = $btn.getAttribute("value");
+            $folder_layer = $(".folder_layer");
+            $source_layer = $(".source_layer");
+            $triangle = $(".triangle");
+            if($str.localeCompare("close") == 0){
+                $folder_layer.animate({height:"0%"},"fast",function(){
+                    $btn.setAttribute("value","open");
+                    $folder_layer.hide();
+                });
+                $triangle.animate({borderBottomWidth: '0px'},"fast");
+                $triangle.animate({borderTopWidth: '10px'},"fast");
+                $source_layer.animate({height:"100%"},"fast");
+            }
+            else if($str.localeCompare("open") == 0){
+                $folder_layer.show();
+                $autoHeight = $folder_layer.css('height', 'auto').height();
+                $folder_layer.height(0);
+                $folder_layer.stop().animate({ height: $autoHeight }, "fast",function(){
+                    $btn.setAttribute("value","close");
+                    $folder_layer.height("auto");
+                });
+                $triangle.animate({borderTopWidth: '0px'},"fast");
+                $triangle.animate({borderBottomWidth: '10px'},"fast");
+                $str = $source_layer.height() - $autoHeight;
+                $source_layer.animate({height:$str},"fast",function(){
+                    resize_source();
+                });
+            }
+        });
+    });
+    $cnt = 0;
+    function resize_source(){
+        {# flexible size #}
+        $folder = $(".folder_layer");
+        $height = $folder.height().toString();
+        $str = "100% - " + $folder.height().toString() + "px";
+{#        $(".debugzz").html($str+"<br/>"+$cnt);#}
+        $(".source_layer").height("calc("+$str+")");
+    }
+</script>

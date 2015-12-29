@@ -20,8 +20,11 @@ from Machine import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    url(r'^$', views.coding),
-    url(r'^result/', views.result, name="this_result"),
+    url(r'^$', views.main, name="main"),
+    url(r'^coding/', views.coding, name="coding"),
+    url(r'^folder/', views.find_folder, name="folder"),
+    url(r'^save/', views.save, name="save"),
+    url(r'^result/', views.result, name="result"),
     url(r'^admin/', admin.site.urls),
 ]
 urlpatterns += staticfiles_urlpatterns()

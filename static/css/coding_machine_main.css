@@ -1,0 +1,43 @@
+/* for main.html */
+
+/*Right-Top button*/
+ {
+}
+.toggle_btn {
+    background: #3498db;
+    -webkit-border-radius: 28;
+    -moz-border-radius: 28;
+    border-radius: 28px;
+    color: #ffffff;
+    font-size: 25px;
+    padding: 20px 20px 20px 20px;
+    text-decoration: none;
+    position: fixed;
+    right:10px;
+    top:10px;
+    z-index:3;
+}
+
+.toggle_btn:hover {
+    background: #3cb0fd;
+    text-decoration: none;
+}
+
+.triangle{
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid black;;
+	border-top: 0px solid black;
+}
+
+div.folder_layer {
+    z-index:2;
+}
+div.source_layer {
+    min-height: 200px;
+    z-index:1;
+}
+
+/* for find_folder.html */
