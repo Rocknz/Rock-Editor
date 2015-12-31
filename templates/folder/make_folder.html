@@ -1,0 +1,28 @@
+<html>
+<div class="all_title">
+    {% if Type == 'folder' %}
+        Making Folder.
+    {% else %}
+        Making File.
+    {% endif %}
+</div>
+<div class="make_folder_back"></div>
+{{ Path }}/
+<input class="make_folder_text" type="text">
+<button class="make_folder_btn"> {{ Btn_name }}</button>
+</html>
+<script>
+    $(document).ready(function($){
+        {% if Move == "true" %}
+            $(".folder_layer").load("{% url 'folder' %}",{path : '{{Path}}', csrfmiddlewaretoken : '{{ csrf_token }}', type:'{{ Type }}'});
+        {% endif %}
+        resize_source();
+        $('.make_folder_btn').click(function(){
+            $str = $(".make_folder_text").val();
+            $(".folder_layer").load("{% url 'make_folder' %}",{path : '{{ Path }}', csrfmiddlewaretoken : '{{ csrf_token }}', new_folder: $str, type:'{{ Type }}'});
+        });
+        $('.make_folder_back').click(function(){
+            $(".folder_layer").load("{% url 'folder' %}",{path : '{{Path}}', csrfmiddlewaretoken : '{{ csrf_token }}'});
+        });
+    });
+</script>

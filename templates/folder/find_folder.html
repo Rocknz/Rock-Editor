@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div class="all_title">
+            Folder Finder.
+            <button class="find_folder_delete">
+                (delete mode)
+            </button>
+        </div>
+        {{ Path }}
+        <br/>
+        the folders
+        <div>
+            {% if Path !=  "" %}
+                <button class="folder_button css_folder_btn" value="cd ..">..</button>
+            {% endif %}
+            {% for n_folder in Folders %}
+                <button class="folder_button css_folder_btn" value="cd {{ n_folder }}"> {{ n_folder }}</button>
+            {% endfor %}
+            <button class="folder_make css_folder_btn"> .. make </button>
+        </div>
+        the files
+        <div>
+            {% for n_files in Files %}
+                <button class="file_button css_folder_btn" value="{{ Path }}/{{ n_files }}">{{ n_files }} </button>
+            {% endfor %}
+            <button class="file_make css_folder_btn"> .. make </button>
+        </div>
+        <br/>
+    </body>
+</html>
+<script>
+    $(document).ready(function($){
+        $(".folder_button").click(function(){
+            $str = this.value;
+            $(".folder_layer").load("{% url 'folder' %}",{ order : $str, path: "{{ Path }}" , csrfmiddlewaretoken:'{{csrf_token}}'});
+        });
+        $(".file_button").click(function(){
+            $str = this.value;
+            $(".source_layer").load("{% url 'coding' %}",{ path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
+        });
+        $(".folder_make").click(function(){
+            $str = "{{ Path }}";
+            $(".folder_layer").load("{% url 'make_folder' %}",{ type: 'folder', path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
+        });
+        $(".file_make").click(function(){
+            $str = "{{ Path }}";
+            $(".folder_layer").load("{% url 'make_folder' %}",{ type: 'file', path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
+        });
+        $(".find_folder_delete").click(function(){
+            $str = "{{ Path }}";
+            $(".folder_layer").load("{% url 'delete_folder' %}",{ path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
+        });
+        resize_source();
+    });
+</script>

@@ -1,0 +1,12 @@
+<html>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static "css/coding_machine_main.css" %}">
+    <div class="all_title"> Login </div>
+    {{ NOTI }}
+    <form href="{% url 'login' %}" method="POST">
+        <input type="text" name="id" value="{{ ID }}"/>
+        <input type="password" name="pw" value="{{ PW }}"/>
+        {% csrf_token %}
+        <input type="button" value="submit" onclick="submit();"/>
+    </form>
+</html>

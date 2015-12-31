@@ -19,6 +19,10 @@
         <div class="triangle">
         </div>
     </div>
+    <form class="logout_btn" action="{% url 'logout' %}" onclick="submit();" method="post">
+        {% csrf_token %}
+        Log out
+    </form>
     <div style="height:100%;">
         <div class="folder_layer">
         </div>
@@ -64,13 +68,12 @@
             }
         });
     });
-    $cnt = 0;
+
     function resize_source(){
         {# flexible size #}
         $folder = $(".folder_layer");
         $height = $folder.height().toString();
         $str = "100% - " + $folder.height().toString() + "px";
-{#        $(".debugzz").html($str+"<br/>"+$cnt);#}
         $(".source_layer").height("calc("+$str+")");
     }
 </script>

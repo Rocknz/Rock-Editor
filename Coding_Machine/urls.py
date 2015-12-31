@@ -15,16 +15,26 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
-from Machine import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from Machine.view_dir import views, views_user
+from Machine.view_dir import views_folder
+
 urlpatterns = [
-    url(r'^$', views.main, name="main"),
+    # url(r'^main/', views.main, name="main"),
+
+    # views for user
+    url(r'^$', views_user.login_view, name="login"),
+    url(r'^logout/', views_user.logout_view, name="logout"),
+    # views for coding
     url(r'^coding/', views.coding, name="coding"),
-    url(r'^folder/', views.find_folder, name="folder"),
     url(r'^save/', views.save, name="save"),
     url(r'^result/', views.result, name="result"),
+    # views for folder control
+    url(r'^folder/$', views_folder.find_folder, name="folder"),
+    url(r'^folder/make/', views_folder.make_folder, name="make_folder"),
+    url(r'^folder/delete/', views_folder.delete_folder, name="delete_folder"),
     url(r'^admin/', admin.site.urls),
+
 ]
 urlpatterns += staticfiles_urlpatterns()

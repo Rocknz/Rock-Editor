@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div class="all_title">
+            Delete file or folder.
+            <button class="delete_folder_finder">
+                (finder mode)
+            </button>
+        </div>
+        <div>
+            {{ Path }}
+        </div>
+        the folders
+        <div>
+            {% for n_folder in Folders %}
+                <button class="delete_folder_folder" value="{{ Path }}/{{ n_folder }}"> {{ n_folder }}</button>
+            {% endfor %}
+        </div>
+        the files
+        <div>
+            {% for n_files in Files %}
+                <button class="delete_folder_file" value="{{ Path }}/{{ n_files }}">{{ n_files }} </button>
+            {% endfor %}
+        </div>
+        <br/>
+    </body>
+</html>
+<script>
+    $(document).ready(function($){
+        $(".delete_folder_folder").click(function(){
+            $str = this.value;
+            $(".folder_layer").load("{% url 'delete_folder' %}",{path:"{{ Path }}", delete_path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
+        });
+        $(".delete_folder_file").click(function(){
+            $str = this.value;
+            $(".folder_layer").load("{% url 'delete_folder' %}",{path:"{{ Path }}", delete_path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
+        });
+        {% if Move == "true" %}
+            $(".folder_layer").load("{% url 'folder' %}",{path : '{{Path}}', csrfmiddlewaretoken : '{{ csrf_token }}'});
+        {% endif %}
+        $(".delete_folder_finder").click(function(){
+            $(".folder_layer").load("{% url 'folder' %}",{path : '{{Path}}', csrfmiddlewaretoken : '{{ csrf_token }}'});
+        });
+        resize_source();
+    });
+</script>

@@ -1,8 +1,30 @@
 /* for main.html */
 
-/*Right-Top button*/
- {
+div.all_title{
+    font-size:20px;
+    font-family: "Consolas", monospace;
 }
+
+/*Right-Top button*/
+.logout_btn{
+    background: #3498db;
+    -webkit-border-radius: 28;
+    -moz-border-radius: 28;
+    border-radius: 28px;
+    color: #ffffff;
+    font-size: 10px;
+    padding: 20px 20px 20px 20px;
+    text-decoration: none;
+    position: fixed;
+    right:10px;
+    top:60px;
+    z-index:3;
+}
+.logout_btn:hover {
+    background: #3cb0fd;
+    text-decoration: none;
+}
+
 .toggle_btn {
     background: #3498db;
     -webkit-border-radius: 28;
@@ -28,16 +50,27 @@
 	height: 0;
 	border-left: 10px solid transparent;
 	border-right: 10px solid transparent;
-	border-bottom: 10px solid black;;
+	border-bottom: 10px solid black;
 	border-top: 0px solid black;
 }
 
 div.folder_layer {
+    background: rgba(200,200,255,0.4);
     z-index:2;
 }
 div.source_layer {
+    background: rgba(200,255,200,0.4);
     min-height: 200px;
     z-index:1;
 }
 
 /* for find_folder.html */
+
+
+.make_folder_back {
+    width: 0;
+    height: 0;
+    border-right: 10px solid black;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
