@@ -4,28 +4,35 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <div class="all_title">
-            Delete file or folder.
-            <button class="delete_folder_finder">
+        <div class="delete_folder_body">
+            <div class="all_title">
+                Delete file or folder.
+            </div>
+            <button class="delete_folder_finder btn-primary">
                 (finder mode)
             </button>
+            <br/>
+            <div class="path">
+                {{ Path }}
+            </div>
+            <div class="folder_mid_title">
+                the folders
+            </div>
+            <div>
+                {% for n_folder in Folders %}
+                    <button class="delete_folder_folder btn" value="{{ Path }}/{{ n_folder }}"> {{ n_folder }}</button>
+                {% endfor %}
+            </div>
+            <div class="folder_mid_title">
+                the files
+            </div>
+            <div>
+                {% for n_files in Files %}
+                    <button class="delete_folder_file btn" value="{{ Path }}/{{ n_files }}">{{ n_files }} </button>
+                {% endfor %}
+            </div>
+            <br/>
         </div>
-        <div>
-            {{ Path }}
-        </div>
-        the folders
-        <div>
-            {% for n_folder in Folders %}
-                <button class="delete_folder_folder" value="{{ Path }}/{{ n_folder }}"> {{ n_folder }}</button>
-            {% endfor %}
-        </div>
-        the files
-        <div>
-            {% for n_files in Files %}
-                <button class="delete_folder_file" value="{{ Path }}/{{ n_files }}">{{ n_files }} </button>
-            {% endfor %}
-        </div>
-        <br/>
     </body>
 </html>
 <script>

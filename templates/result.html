@@ -6,19 +6,15 @@
 </head>
 <body>
     <div>
-    {% if Debug %}
+    {% if Result %}
         {% autoescape on %}
-            {{ Debug | linebreaksbr}}
-        {% endautoescape %}
-    {% endif %}
-    </div>
-
-    <div>
-    {% if Ans %}
-        {% autoescape on %}
-            {{ Ans | linebreaksbr}}
+            {{ Result | linebreaksbr}}
         {% endautoescape %}
     {% endif %}
     </div>
 </body>
 </html>
+
+<script>
+    notice("Run complete.");
+</script>

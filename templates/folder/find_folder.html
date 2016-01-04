@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
     <body>
-        <div class="all_title">
-            Folder Finder.
-            <button class="find_folder_delete">
+        <div class="find_folder_body">
+            <div class="all_title">
+                Folder Finder.
+            </div>
+            <button class="find_folder_delete btn btn-danger">
                 (delete mode)
             </button>
+            <br/>
+            <div class="path">
+                {{ Path }}
+            </div>
+            <div class="folder_midtitle">
+                the folders
+            </div>
+            {% load staticfiles %}
+            <div>
+                {% if Path !=  "" %}
+                    <button class="folder_button btn" value="cd ..">..</button>
+                {% endif %}
+                {% for n_folder in Folders %}
+                    <button class="folder_button btn" value="cd {{ n_folder }}"> {{ n_folder }}</button>
+                {% endfor %}
+                <button class="folder_make btn">
+                    <img src="{% static "images/add_folder.png" %}">
+                </button>
+            </div>
+            <div class="folder_midtitle">
+                the files
+            </div>
+            <div>
+                {% for n_files in Files %}
+                    <button class="file_button btn" value="{{ Path }}/{{ n_files }}">{{ n_files }} </button>
+                {% endfor %}
+                <button class="file_make btn">
+                    <img src="{% static "images/add_file.png" %}">
+                </button>
+            </div>
+            <br/>
         </div>
-        {{ Path }}
-        <br/>
-        the folders
-        <div>
-            {% if Path !=  "" %}
-                <button class="folder_button css_folder_btn" value="cd ..">..</button>
-            {% endif %}
-            {% for n_folder in Folders %}
-                <button class="folder_button css_folder_btn" value="cd {{ n_folder }}"> {{ n_folder }}</button>
-            {% endfor %}
-            <button class="folder_make css_folder_btn"> .. make </button>
-        </div>
-        the files
-        <div>
-            {% for n_files in Files %}
-                <button class="file_button css_folder_btn" value="{{ Path }}/{{ n_files }}">{{ n_files }} </button>
-            {% endfor %}
-            <button class="file_make css_folder_btn"> .. make </button>
-        </div>
-        <br/>
     </body>
 </html>
 <script>

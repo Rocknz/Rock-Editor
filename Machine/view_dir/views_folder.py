@@ -60,12 +60,13 @@ def make_folder(request):
 
         new_folder = request.POST.get('new_folder', '')
         if new_folder == '':
-            btn_name = ''
             if type == 'folder':
-                btn_name = "폴더 생성"
+                btn_name = "Make new folder"
+                example = "name"
             else:
-                btn_name = "파일 생성"
-            return render(request, "folder/make_folder.html", {'Path': path, 'Btn_name': btn_name, 'Type': type})
+                btn_name = "Make new file"
+                example = "name.cpp"
+            return render(request, "folder/make_folder.html", {'Path': path, 'Btn_name': btn_name, 'Type': type, 'Example': example})
         else:
             if type == 'folder':
                 new_path = path + "/" + new_folder

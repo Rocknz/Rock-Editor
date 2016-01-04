@@ -7,26 +7,31 @@
     <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
     <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
     <script src="{% static "codemirror/mode/javascript/javascript.js" %}"></script>
-    <script src="{% static "codemirror/mode/clike/clike.js" %}"></script>
     <link rel="stylesheet" href="{% static "codemirror/theme/dracula.css" %}">
     <script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
     <script src="{% static "codemirror/addon/selection/active-line.js" %}"></script>
     <link rel="stylesheet" href="{% static "css/coding_machine_main.css" %}">
-    <title>Title</title>
+    <link rel="stylesheet" href="{% static "css/bootplus.min.css" %}">
+    <title>Web_Coding</title>
 </head>
-<body style="height: 100%;">
-    <div class="toggle_btn" value="close">
+<body class="main">
+    <button class="toggle_btn btn btn-primary" value="close">
         <div class="triangle">
         </div>
-    </div>
-    <form class="logout_btn" action="{% url 'logout' %}" onclick="submit();" method="post">
+    </button>
+    <form class="logout_btn" action="{% url 'logout' %}" method="post">
         {% csrf_token %}
-        Log out
+        <button class=" btn btn-primary" onclick="submit();">
+            Log out
+        </button>
     </form>
     <div style="height:100%;">
         <div class="folder_layer">
         </div>
         <div class="source_layer">
+        </div>
+        <div class="notice_layer" hidden>
+            notice_layer
         </div>
     </div>
 </body>
@@ -75,5 +80,19 @@
         $height = $folder.height().toString();
         $str = "100% - " + $folder.height().toString() + "px";
         $(".source_layer").height("calc("+$str+")");
+    }
+    function notice($str){
+        $notice_layer = $(".notice_layer");
+        $notice_layer.html($str);
+        $notice_layer.fadeIn();
+        setTimeout(function g(){
+            notice_delete($str)
+        }, 3000);
+    }
+    function notice_delete($str){
+        $notice_layer = $(".notice_layer");
+        if($notice_layer.html().localeCompare($str) == 0){
+            $notice_layer.fadeOut();
+        }
     }
 </script>

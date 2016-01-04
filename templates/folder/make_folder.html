@@ -1,15 +1,20 @@
 <html>
-<div class="all_title">
-    {% if Type == 'folder' %}
-        Making Folder.
-    {% else %}
-        Making File.
-    {% endif %}
-</div>
-<div class="make_folder_back"></div>
-{{ Path }}/
-<input class="make_folder_text" type="text">
-<button class="make_folder_btn"> {{ Btn_name }}</button>
+    <div class="make_folder_body">
+        <div class="all_title">
+            {% if Type == 'folder' %}
+                Make Folder.
+            {% else %}
+                Make File.
+            {% endif %}
+        </div>
+        <button class="make_folder_back btn btn-primary">Back</button>
+        <br/>
+        {{ Path }}/
+        <div class="input-append">
+            <input class="make_folder_text" type="text" placeholder="{{ Example }}">
+            <button class="make_folder_btn btn btn-primary"> {{ Btn_name }}</button>
+        </div>
+    </div>
 </html>
 <script>
     $(document).ready(function($){

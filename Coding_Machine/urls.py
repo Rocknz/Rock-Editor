@@ -29,7 +29,7 @@ urlpatterns = [
     # views for coding
     url(r'^coding/', views.coding, name="coding"),
     url(r'^save/', views.save, name="save"),
-    url(r'^result/', views.result, name="result"),
+    url(r'^run/', views.result, name="run"),
     # views for folder control
     url(r'^folder/$', views_folder.find_folder, name="folder"),
     url(r'^folder/make/', views_folder.make_folder, name="make_folder"),
