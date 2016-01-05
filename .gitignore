@@ -4,7 +4,8 @@
 
 *.egg-info
 *.pot
-*.py[co]
+*.pyc
+*.pyo
 __pycache__
 MANIFEST
 dist/
