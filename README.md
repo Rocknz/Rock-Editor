@@ -1,7 +1,7 @@
 Rock-editor
 ==============
  **Rock-editor is a cloud editor.** 
- Through this editor, you can make or fix your code in your server(editor installed).
+ Through this editor, you can make or fix your codes in your server(editor installed). Because It is the cloud editor, you can use this editor anywhere if you have browser (like mobile, tablet). 
  
 
 ### Django
