@@ -5,7 +5,7 @@ Rock-editor
  
 
 ### Django
-Rock-editor is main projects for  
+Rock-editor is django project. 
 ### CodeMirror
 This editor use codemirror for coding platform.
 ### bootplus
