@@ -26,7 +26,7 @@ CodeMirror.defineMode("gas", function(_config, parserConfig) {
   var lineCommentStartSymbol = "";
 
   // These directives are architecture independent.
-  // Machine specific directives should go in their respective
+  // Engine specific directives should go in their respective
   // architecture initialization function.
   // Reference:
   // http://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops

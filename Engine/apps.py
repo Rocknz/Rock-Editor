@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 
 class MachineConfig(AppConfig):
-    name = 'Machine'
+    name = 'Engine'

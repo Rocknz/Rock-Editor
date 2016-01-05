@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Machine',
+    'Engine',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -50,7 +50,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Coding_Machine.urls'
+ROOT_URLCONF = 'Rock Editor.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Coding_Machine.wsgi.application'
+WSGI_APPLICATION = 'Rock Editor.wsgi.application'
 
 
 # Database
@@ -122,5 +122,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    "var/www/Web_Coding/static/",
 ]

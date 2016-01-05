@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from Machine.view_dir import views
+from Engine.view_dir import views
 
 
 def login_view(request):

@@ -17,8 +17,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from Machine.view_dir import views, views_user
-from Machine.view_dir import views_folder
+from Engine.view_dir import views, views_user
+from Engine.view_dir import views_folder
 
 urlpatterns = [
     # url(r'^main/', views.main, name="main"),
