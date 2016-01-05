@@ -1,11 +1,10 @@
 Rock-editor
 ==============
  **Rock-editor is a cloud editor.** 
- Through this editor, you can make or fix your codes in your server(editor installed). Because It is the cloud editor, you can use this editor anywhere if you have browser (like mobile, tablet). 
+ Through this editor, you can make or fix your codes in your server(editor installed). and it assists to control of the folders and files on the server. Because It is the cloud editor, you can use this editor anywhere if you have browser (like mobile, tablet). 
  
-
 ### Django
-Rock-editor is django project. 
+Rock-editor is python django project with html, javascript, jquery, 
 ### CodeMirror
 This editor use codemirror for coding platform.
 ### bootplus
@@ -20,9 +19,8 @@ Usage
 
 
 
-This project is web_page for coding on the own server.
-This app assists the control of the folders and files on the server.
-And User can fix the code in the folder.
+
+
 
 
 app:Machine/view_dir
