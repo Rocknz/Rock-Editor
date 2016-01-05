@@ -52,8 +52,8 @@
                     $btn.setAttribute("value","open");
                     $folder_layer.hide();
                 });
-                $triangle.animate({borderBottomWidth: '0px'},"fast");
-                $triangle.animate({borderTopWidth: '10px'},"fast");
+                $triangle.css('borderBottomWidth','0px');
+                $triangle.css('borderTopWidth','10px');
                 $source_layer.animate({height:"100%"},"fast");
             }
             else if($str.localeCompare("open") == 0){
@@ -64,8 +64,8 @@
                     $btn.setAttribute("value","close");
                     $folder_layer.height("auto");
                 });
-                $triangle.animate({borderTopWidth: '0px'},"fast");
-                $triangle.animate({borderBottomWidth: '10px'},"fast");
+                $triangle.css('borderBottomWidth','10px');
+                $triangle.css('borderTopWidth','0px');
                 $str = $source_layer.height() - $autoHeight;
                 $source_layer.animate({height:$str},"fast",function(){
                     resize_source();
