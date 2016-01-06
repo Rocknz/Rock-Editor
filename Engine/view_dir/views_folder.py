@@ -6,10 +6,12 @@ import os
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from Engine.models import LatestFolderPath
+
 
 def find_folder(request):
     if request.user.is_authenticated():
-        path = folder_get_path(request.POST.get('path', ''))
+        path = folder_get_path(request.POST.get('path', ''), request)
         order = request.POST.get('order', '')
 
         # move order..
@@ -26,6 +28,11 @@ def find_folder(request):
         if path == '':
             path = '/'
 
+        if not os.path.exists(path):
+            path = os.getcwd()+"/Guest"
+            if not os.path.exists(path):
+                os.makedirs(path)
+
         # only admin user can access
         home_path = os.getcwd()+"/Guest"
         if (request.user.get_username() != "admin") and (home_path not in path):
@@ -34,17 +41,29 @@ def find_folder(request):
         folders = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
+        LatestFolderPath.objects.filter(user_id=request.user.get_username()).delete()
+        new_data = LatestFolderPath(user_id=request.user.get_username(), path=path)
+        new_data.save()
+        print path
+
         return render(request, "folder/find_folder.html", {'Path': path, 'Folders': folders, 'Files': files})
     else:
         return HttpResponseRedirect("/")
 
 
-def folder_get_path(path):
+def folder_get_path(path, request):
     if path == '':
-        # get current url
-        path = os.getcwd()+"/Guest"
-        if not os.path.exists(path):
-            os.makedirs(path)
+        # get latest url
+        try:
+            path = LatestFolderPath.objects.get(user_id=request.user.get_username()).path
+        except LatestFolderPath.DoesNotExist:
+            path = ''
+
+        if path == '':
+            # get current url
+            path = os.getcwd()+"/Guest"
+            if not os.path.exists(path):
+                os.makedirs(path)
     return path
 
 
@@ -85,7 +104,10 @@ def delete_folder(request):
     if request.user.is_authenticated():
         delete_path = request.POST.get('delete_path', '')
         print "delete_path="+delete_path
-        path = folder_get_path(request.POST.get('path', ''))
+        path = request.POST.get('path', '')
+        if path == '':
+            return HttpResponseRedirect('/')
+
         if delete_path == '':
             # only admin user can delete upper directory of The Guest
             home_path = os.getcwd()+"/Guest"
