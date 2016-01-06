@@ -70,11 +70,13 @@ def result(request):
         coding_text = request.POST.get('coding_Text', '')
         ext = request.POST.get('ext', '')
         is_saved = save_file(path, coding_text)
+        path = path.replace(" ", "\\ ")
         if coding_text and is_saved == 'Saved':
-            run_result = ""
             if ext == 'c' or ext == 'cpp':
                 commands.getoutput('rm a.out')
-                run_result = commands.getoutput('g++ ' + path)
+                run_result = command_timelimit('g++ ' + path, 1)
+                if run_result == "Running Error":
+                    run_result = ""
                 # run
                 run_result = run_result + "\n" + command_timelimit('./a.out', 1)
             elif ext == 'py':
