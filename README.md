@@ -32,5 +32,5 @@ Usage
 
 Support or Contact
 ------
- - [email](jrj325@hanmir.com) 
+ - [email](mailto:jrj325@hanmir.com) 
  - [document](https://rocknz.github.io/Rock-Editor/)
