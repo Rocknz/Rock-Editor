@@ -7,7 +7,7 @@ from Engine.view_dir import views
 
 
 def login_view(request):
-    # Session is or not.
+    # Login or not.
     if not request.user.is_authenticated():
         id = request.POST.get('id', '')
         pw = request.POST.get('pw', '')

@@ -18,9 +18,6 @@
 </html>
 <script>
     $(document).ready(function($){
-        {% if Move == "true" %}
-            $(".folder_layer").load("{% url 'folder' %}",{path : '{{Path}}', csrfmiddlewaretoken : '{{ csrf_token }}', type:'{{ Type }}'});
-        {% endif %}
         resize_source();
         $('.make_folder_btn').click(function(){
             $str = $(".make_folder_text").val();

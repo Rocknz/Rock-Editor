@@ -9,19 +9,25 @@ from django.shortcuts import render
 import commands
 
 
+def check_user_auth(now_path, user_name):
+    guest_path = os.getcwd()+"/Guest"
+    if(user_name != "admin") and (guest_path not in now_path):
+        return False
+    return True
+
+
 # Folder source open and fix it.
 def coding(request):
     if request.user.is_authenticated():
         path = request.POST.get('path', '.')
 
-        # only admin user to access
-        home_path = os.getcwd()+"/Guest"
-        if (request.user.get_username() != "admin") and (home_path not in path):
-            return HttpResponseRedirect("/")
+        # check the authorization
+        if not check_user_auth(path, request.user.get_username()):
+            return render(request, "invalid.html", {})
 
         text = ""
         try:
-            fp = codecs.open(path, "r","utf-8")
+            fp = codecs.open(path, "r", "utf-8")
             for gap in fp.read():
                 text += gap
             fp.close()
@@ -60,37 +66,42 @@ def coding(request):
             mode = 'application/x-httpd-php'
         return render(request, "coding.html", {'Path': path, 'Text': text, 'Ext': ext, 'Ext_Link': ext_link, 'Mode': mode, 'File_name': file_name})
     else:
-        return HttpResponseRedirect("/")
+        return render(request, "invalid.html", {})
 
 
 # Save the source of fixing code.
 def result(request):
     if request.user.is_authenticated():
         path = request.POST.get('path', '')
-        coding_text = request.POST.get('coding_Text', '')
+
+        # check the authorization
+        if not check_user_auth(path, request.user.get_username()):
+            return render(request, "invalid.html", {})
+
+        source = request.POST.get('coding_Text', '')
         ext = request.POST.get('ext', '')
-        is_saved = save_file(path, coding_text)
+        is_saved = save_file(path, source)
         path = path.replace(" ", "\\ ")
-        if coding_text and is_saved == 'Saved':
+        if source and is_saved == 'Saved':
             if ext == 'c' or ext == 'cpp':
                 commands.getoutput('rm a.out')
-                run_result = command_timelimit('g++ ' + path, 1)
+                run_result = command_time_limit('g++ ' + path, 1)
                 if run_result == "Running Error":
                     run_result = ""
                 # run
-                run_result = run_result + "\n" + command_timelimit('./a.out', 1)
+                run_result = run_result + "\n" + command_time_limit('./a.out', 1)
             elif ext == 'py':
-                run_result = command_timelimit('python ' + path, 1)
+                run_result = command_time_limit('python ' + path, 1)
             else:
                 run_result = "This type of extension is not runnable"
             return render(request, "result.html", {'Result': run_result})
         else:
             return render(request, "result.html", {'Result': 'Not available'})
     else:
-        return HttpResponseRedirect("/")
+        return render(request, "invalid.html", {})
 
 
-def command_timelimit(cmd, timelimit):
+def command_time_limit(cmd, time_limit):
     def target():
         global process, Ans, Err
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -98,7 +109,7 @@ def command_timelimit(cmd, timelimit):
 
     thread = threading.Thread(target=target)
     thread.start()
-    thread.join(timelimit)
+    thread.join(time_limit)
 
     if thread.is_alive():
         process.terminate()
@@ -122,11 +133,16 @@ def main(request):
 def save(request):
     if request.user.is_authenticated():
         path = request.POST.get('path', '')
+
+        # check the authorization
+        if not check_user_auth(path, request.user.get_username()):
+            return render(request, "invalid.html", {})
+
         coding_text = request.POST.get('coding_Text', '')
         is_saved = save_file(path, coding_text)
         return render(request, "save.html", {'ANS': is_saved})
     else:
-        return HttpResponseRedirect("/")
+        return render(request, "invalid.html", {})
 
 
 def save_file(path, text):

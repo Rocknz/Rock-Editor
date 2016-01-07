@@ -45,9 +45,6 @@
             $str = this.value;
             $(".folder_layer").load("{% url 'delete_folder' %}",{path:"{{ Path }}", delete_path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
         });
-        {% if Move == "true" %}
-            $(".folder_layer").load("{% url 'folder' %}",{path : '{{Path}}', csrfmiddlewaretoken : '{{ csrf_token }}'});
-        {% endif %}
         $(".delete_folder_finder").click(function(){
             $(".folder_layer").load("{% url 'folder' %}",{path : '{{Path}}', csrfmiddlewaretoken : '{{ csrf_token }}'});
         });

@@ -19,3 +19,4 @@ tests/report/
 Guest/
 .idea/
 a.out
+db.sqlite3

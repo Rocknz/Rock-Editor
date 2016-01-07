@@ -3,10 +3,17 @@
 # Folder finder
 import os
 
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from Engine.models import LatestFolderPath
+from Engine.view_dir.views import check_user_auth
+
+
+def get_guest_url():
+    path = os.getcwd()+"/Guest"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
 
 
 def find_folder(request):
@@ -29,14 +36,11 @@ def find_folder(request):
             path = '/'
 
         if not os.path.exists(path):
-            path = os.getcwd()+"/Guest"
-            if not os.path.exists(path):
-                os.makedirs(path)
+            return goto_find_folder(request, get_guest_url, 'Path is wrong')
 
-        # only admin user can access
-        home_path = os.getcwd()+"/Guest"
-        if (request.user.get_username() != "admin") and (home_path not in path):
-            path = os.getcwd()+"/Guest"
+       # check the authorization
+        if not check_user_auth(path, request.user.get_username()):
+            return goto_find_folder(request, get_guest_url(), 'Not authorized')
 
         folders = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
@@ -44,11 +48,10 @@ def find_folder(request):
         LatestFolderPath.objects.filter(user_id=request.user.get_username()).delete()
         new_data = LatestFolderPath(user_id=request.user.get_username(), path=path)
         new_data.save()
-        print path
 
         return render(request, "folder/find_folder.html", {'Path': path, 'Folders': folders, 'Files': files})
     else:
-        return HttpResponseRedirect("/")
+        return render(request, "invalid.html", {})
 
 
 def folder_get_path(path, request):
@@ -60,10 +63,8 @@ def folder_get_path(path, request):
             path = ''
 
         if path == '':
-            # get current url
-            path = os.getcwd()+"/Guest"
-            if not os.path.exists(path):
-                os.makedirs(path)
+            path = get_guest_url()
+
     return path
 
 
@@ -72,12 +73,14 @@ def make_folder(request):
         path = request.POST.get('path', '')
         type = request.POST.get('type', '')
 
-        # only admin user can access upper directory of The Guest
-        home_path = os.getcwd()+"/Guest"
-        if (request.user.get_username() != "admin") and (home_path not in path):
-            return HttpResponseRedirect('/')
+        if path == '' or not os.path.exists(path):
+            return goto_find_folder(request, path, 'Path is wrong')
+        # check the authorization
+        if not check_user_auth(path, request.user.get_username()):
+            return goto_find_folder(request, path, 'Not authorized')
 
         new_folder = request.POST.get('new_folder', '')
+
         if new_folder == '':
             if type == 'folder':
                 btn_name = "Make new folder"
@@ -87,17 +90,20 @@ def make_folder(request):
                 example = "name.cpp"
             return render(request, "folder/make_folder.html", {'Path': path, 'Btn_name': btn_name, 'Type': type, 'Example': example})
         else:
+            if os.path.exists(path+"/"+new_folder):
+                return goto_find_folder(request, path, 'The folder/file is already exists')
+
             if type == 'folder':
                 new_path = path + "/" + new_folder
                 os.makedirs(new_path)
-                return render(request, "folder/make_folder.html", {'Path': new_path, 'Move': 'true'})
+                return goto_find_folder(request, new_path, 'The folder is made')
             else:
                 new_path = path + "/" + new_folder
                 fp = open(new_path, "w")
                 fp.close()
-                return render(request, "folder/make_folder.html", {'Path': path, 'Move': 'true'})
+                return goto_find_folder(request, path, 'The file is made')
     else:
-        return HttpResponseRedirect('/')
+        return render(request, "invalid.html", {})
 
 
 def delete_folder(request):
@@ -105,25 +111,26 @@ def delete_folder(request):
         delete_path = request.POST.get('delete_path', '')
         print "delete_path="+delete_path
         path = request.POST.get('path', '')
-        if path == '':
-            return HttpResponseRedirect('/')
+        if path == '' or not os.path.exists(path):
+            return goto_find_folder(request, path, 'Path is wrong')
+
+        # check the authorization
+        if not check_user_auth(path, request.user.get_username()):
+            return goto_find_folder(request, path, 'Not authorized')
 
         if delete_path == '':
-            # only admin user can delete upper directory of The Guest
-            home_path = os.getcwd()+"/Guest"
-            if (request.user.get_username() != "admin") and (home_path not in path):
-                return HttpResponseRedirect('/')
-
             folders = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
             files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
             return render(request, "folder/delete_folder.html", {'Path': path, 'Folders': folders, 'Files': files})
+
         else:
-            # only admin user can delete upper directory of The Guest
-            home_path = os.getcwd()+"/Guest"
-            if (request.user.get_username() != "admin") and ((home_path not in path) or (home_path not in delete_path)):
-                return HttpResponseRedirect('/')
+            # check the authorization
+            if not check_user_auth(delete_path, request.user.get_username()):
+                return goto_find_folder(request, path, 'Not authorized')
+            if not os.path.exists(delete_path):
+                return goto_find_folder(request, path, 'Deleting Path is wrong')
+
             # delete
-            print "i am here!"
             if os.path.isdir(delete_path):
                 for root, dirs, files in os.walk(delete_path, topdown=False):
                     for name in files:
@@ -132,9 +139,13 @@ def delete_folder(request):
                     for name in dirs:
                         os.rmdir(os.path.join(root, name))
                 os.rmdir(delete_path)
+                return goto_find_folder(request, path, 'The folder is deleted')
             else:
                 os.remove(delete_path)
-            return render(request, "folder/delete_folder.html", {'Path': path, 'Move': 'true'})
+                return goto_find_folder(request, path, 'The file is deleted')
     else:
-        return HttpResponseRedirect('/')
+        return render(request, "invalid.html", {})
 
+
+def goto_find_folder(request, path, noti):
+    return render(request, "folder/return_find_folder.html", {'Path': path, 'Noti': noti})
