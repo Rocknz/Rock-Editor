@@ -1,0 +1,8 @@
+<html>
+</html>
+<script>
+    {% if Noti %}
+        notice("{{ Noti }}");
+    {% endif %}
+    $(".folder_layer").load("{% url 'folder' %}",{path : '{{Path}}', csrfmiddlewaretoken : '{{ csrf_token }}'});
+</script>
