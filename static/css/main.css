@@ -66,12 +66,12 @@ body.main{
 .popup_layer {
     position:absolute;
     z-index: 1000;
-    background: rgb(200,200,255);
+    background: rgba(210,210,210,0.8);
 }
 
 div.folder_layer {
     position:fixed;
-    background: rgb(200,200,255);
+    background: rgb(230,230,255);
     width: 30%;
     min-width: 250px;
     height:100%;
@@ -95,7 +95,7 @@ div.notice_layer{
     font-size:20px;
     width:100%;
     text-align:center;
-    z-index:3;
+    z-index:100;
 }
 /* for find_folder.html */
 .folder_midtitle{
@@ -111,7 +111,9 @@ div.find_folder_scroll{
     position:relative;
     height:100%;
 }
-
+.folder_button{
+    margin-bottom:10px;
+}
 /* for make_folder.html */
 div.make_folder_body{
     padding : 5px;
