@@ -16,8 +16,8 @@ $(document).ready(function($){
                 $folder_layer.hide();
             });
             resize_source("0");
-            $triangle.css('borderBottomWidth','0px');
-            $triangle.css('borderTopWidth','10px');
+            $triangle.css('borderLeftWidth','0px');
+            $triangle.css('borderRightWidth','10px');
         }
         else if($str.localeCompare("open") == 0){
             //$folder_layer.show();
@@ -25,8 +25,8 @@ $(document).ready(function($){
                 $btn.setAttribute("value","close");
             });
             resize_source($(".folder_layer").width().toString());
-            $triangle.css('borderBottomWidth','10px');
-            $triangle.css('borderTopWidth','0px');
+            $triangle.css('borderLeftWidth','10px');
+            $triangle.css('borderRightWidth','0px');
         }
     });
 });
@@ -59,6 +59,14 @@ function show_popup_layer(){
     $popup_layer.css("left","calc(50% - "+($popup_layer.width()/2.0)+"px)");
     $popup_layer.show();
 }
+
+//window size changed.
+$( window ).resize(function() {
+    if($(".toggle_btn").attr("value").localeCompare("close") == 0) {
+        resize_source($(".folder_layer").width().toString());
+    }
+});
+
 
 
 

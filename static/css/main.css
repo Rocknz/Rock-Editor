@@ -49,7 +49,7 @@ body.main{
     text-decoration: none;
     position: fixed;
     right:10px;
-    top:10px;
+    top:8px;
     z-index:10;
 }
 
@@ -57,10 +57,10 @@ body.main{
 .triangle{
 	width: 0;
 	height: 0;
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
-	border-bottom: 10px solid black;
-	border-top: 0px solid black;
+	border-left: 10px solid black;
+	border-right: 0 solid black;
+	border-bottom: 10px solid transparent;
+	border-top: 10px solid transparent;
 }
 
 .popup_layer {
@@ -88,7 +88,7 @@ div.source_layer {
 }
 div.notice_layer{
     padding: 5px;
-    background: rgba(255,0,0,0.5);
+    background: rgba(255,0,0,0.8);
     color: white;
     position: fixed;
     bottom:5px;
@@ -135,7 +135,7 @@ button.login_btn{
 /* for coding.html*/
 div.coding_btn{
     float:right;
-    margin-right:50px;
+    margin-right:35px;
 }
 button.save{
     margin: 3px;
