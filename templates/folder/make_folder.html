@@ -7,9 +7,8 @@
                 Make File.
             {% endif %}
         </div>
-        <button class="make_folder_back btn btn-primary">Back</button>
-        <br/>
-        {{ Path }}/
+        <button class="make_folder_back btn btn-danger">Back</button>
+        <br/><br/>
         <div class="input-append">
             <input class="make_folder_text" type="text" placeholder="{{ Example }}">
             <button class="make_folder_btn btn btn-primary"> {{ Btn_name }}</button>
@@ -22,9 +21,11 @@
         $('.make_folder_btn').click(function(){
             $str = $(".make_folder_text").val();
             $(".folder_layer").load("{% url 'make_folder' %}",{path : '{{ Path }}', csrfmiddlewaretoken : '{{ csrf_token }}', new_folder: $str, type:'{{ Type }}'});
+            $(".popup_layer").hide();
         });
         $('.make_folder_back').click(function(){
-            $(".folder_layer").load("{% url 'folder' %}",{path : '{{Path}}', csrfmiddlewaretoken : '{{ csrf_token }}'});
+            $(".popup_layer").hide();
         });
     });
+    show_popup_layer();
 </script>

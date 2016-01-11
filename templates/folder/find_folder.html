@@ -5,9 +5,6 @@
             <div class="all_title">
                 Folder Finder.
             </div>
-            <button class="find_folder_delete btn btn-danger">
-                (delete mode)
-            </button>
             <br/>
             <div class="path">
                 {{ Path }}
@@ -18,10 +15,10 @@
             {% load staticfiles %}
             <div>
                 {% if Path !=  "" %}
-                    <button class="folder_button btn" value="cd ..">..</button>
+                    <button class="folder_button btn" value="cd .." link="null" path="null">..</button>
                 {% endif %}
                 {% for n_folder in Folders %}
-                    <button class="folder_button btn" value="cd {{ n_folder }}"> {{ n_folder }}</button>
+                    <button class="folder_button btn" value="cd {{ n_folder }}" link="{{ Path }}/{{ n_folder }}" path="{{ Path }}"> {{ n_folder }}</button>
                 {% endfor %}
                 <button class="folder_make btn">
                     <img src="{% static "images/add_folder.png" %}">
@@ -32,7 +29,7 @@
             </div>
             <div>
                 {% for n_files in Files %}
-                    <button class="file_button btn" value="{{ Path }}/{{ n_files }}">{{ n_files }} </button>
+                    <button class="file_button btn" value="{{ Path }}/{{ n_files }}" link="{{ Path }}/{{ n_files }}" path="{{ Path }}">{{ n_files }} </button>
                 {% endfor %}
                 <button class="file_make btn">
                     <img src="{% static "images/add_file.png" %}">
@@ -54,15 +51,11 @@
         });
         $(".folder_make").click(function(){
             $str = "{{ Path }}";
-            $(".folder_layer").load("{% url 'make_folder' %}",{ type: 'folder', path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
+            $(".popup_layer").load("{% url 'make_folder' %}",{ type: 'folder', path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
         });
         $(".file_make").click(function(){
             $str = "{{ Path }}";
-            $(".folder_layer").load("{% url 'make_folder' %}",{ type: 'file', path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
-        });
-        $(".find_folder_delete").click(function(){
-            $str = "{{ Path }}";
-            $(".folder_layer").load("{% url 'delete_folder' %}",{ path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
+            $(".popup_layer").load("{% url 'make_folder' %}",{ type: 'file', path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
         });
         resize_source();
     });

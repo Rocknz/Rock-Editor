@@ -12,6 +12,34 @@ body.main{
     font-style:italic;
     font-size:12px;
 }
+.custom-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+    padding: 0;
+}
+.popup_layer {
+    position:absolute;
+    z-index: 1000;
+    background: rgb(200,200,255);
+}
+/* Each of the items in the list */
+.custom-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.custom-menu li:hover {
+    background-color: #DEF;
+}
 
 /*Right-Top button*/
 .logout_btn{
@@ -66,17 +94,16 @@ div.notice_layer{
     font-weight: bold;
     font-size:18px;
 }
-
-/* for delete_folder.html */
 div.find_folder_body{
     padding : 5px;
 }
+
+/* for make_folder.html */
 div.make_folder_body{
     padding : 5px;
 }
-div.delete_folder_body {
-    padding: 5px;
-    background: rgba(255, 100, 100, 0.1);
+.make_folder_back{
+    float:right;
 }
 
 /* for login.html */

@@ -36,7 +36,7 @@ def find_folder(request):
             path = '/'
 
         if not os.path.exists(path):
-            return goto_find_folder(request, get_guest_url, 'Path is wrong')
+            return goto_find_folder(request, get_guest_url(), 'Path is wrong')
 
        # check the authorization
         if not check_user_auth(path, request.user.get_username()):
@@ -81,7 +81,7 @@ def make_folder(request):
 
         new_folder = request.POST.get('new_folder', '')
 
-        if new_folder == '':
+        if 'new_folder' not in request.POST:
             if type == 'folder':
                 btn_name = "Make new folder"
                 example = "name"
@@ -90,6 +90,9 @@ def make_folder(request):
                 example = "name.cpp"
             return render(request, "folder/make_folder.html", {'Path': path, 'Btn_name': btn_name, 'Type': type, 'Example': example})
         else:
+            if new_folder == '':
+                return goto_find_folder(request, path, 'Input is null');
+
             if os.path.exists(path+"/"+new_folder):
                 return goto_find_folder(request, path, 'The folder/file is already exists')
 
@@ -109,7 +112,6 @@ def make_folder(request):
 def delete_folder(request):
     if request.user.is_authenticated():
         delete_path = request.POST.get('delete_path', '')
-        print "delete_path="+delete_path
         path = request.POST.get('path', '')
         if path == '' or not os.path.exists(path):
             return goto_find_folder(request, path, 'Path is wrong')
@@ -119,10 +121,7 @@ def delete_folder(request):
             return goto_find_folder(request, path, 'Not authorized')
 
         if delete_path == '':
-            folders = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
-            files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
-            return render(request, "folder/delete_folder.html", {'Path': path, 'Folders': folders, 'Files': files})
-
+            return goto_find_folder(request, path, 'Delete_path')
         else:
             # check the authorization
             if not check_user_auth(delete_path, request.user.get_username()):
@@ -134,7 +133,6 @@ def delete_folder(request):
             if os.path.isdir(delete_path):
                 for root, dirs, files in os.walk(delete_path, topdown=False):
                     for name in files:
-                        print(os.path.join(root, name))
                         os.remove(os.path.join(root, name))
                     for name in dirs:
                         os.rmdir(os.path.join(root, name))
