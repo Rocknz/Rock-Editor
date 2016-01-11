@@ -24,8 +24,6 @@
             {{ Path }}
         </div>
         <textarea class="Coding_Text"  name="source" autofocus="autofocus">{{ Text }}</textarea>
-        <div class="Result_load">
-        </div>
     </body>
 </html>
 <script>
@@ -37,14 +35,14 @@
             styleActiveLine: true,
             matchBrackets: true
         });
-       myCodeMirror.setSize("100%","calc(100% - 70px)");
+       myCodeMirror.setSize("100%","calc(100% - 30px)");
        $(".run").click(function(){
            $text = myCodeMirror.getValue();
-           $(".Result_load").load("{% url 'run' %}",{coding_Text:$text, csrfmiddlewaretoken:'{{csrf_token}}', path:'{{Path}}', ext:'{{ Ext }}'});
+           $(".popup_layer").load("{% url 'run' %}",{coding_Text:$text, csrfmiddlewaretoken:'{{csrf_token}}', path:'{{Path}}', ext:'{{ Ext }}'});
        });
        $(".save").click(function(){
            $text = myCodeMirror.getValue();
-           $(".Result_load").load("{% url 'save' %}",{coding_Text:$text, csrfmiddlewaretoken:'{{csrf_token}}', path:'{{Path}}'});
+           $(".popup_layer").load("{% url 'save' %}",{coding_Text:$text, csrfmiddlewaretoken:'{{csrf_token}}', path:'{{Path}}'});
        });
        notice("{{ Path }}");
     });

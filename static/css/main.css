@@ -25,11 +25,6 @@ body.main{
     border-radius: 5px;
     padding: 0;
 }
-.popup_layer {
-    position:absolute;
-    z-index: 1000;
-    background: rgb(200,200,255);
-}
 /* Each of the items in the list */
 .custom-menu li {
     padding: 8px 12px;
@@ -47,7 +42,7 @@ body.main{
     right:10px;
     top:40px;
     text-decoration: none;
-    z-index:3;
+    z-index:10;
 }
 
 .toggle_btn {
@@ -55,7 +50,7 @@ body.main{
     position: fixed;
     right:10px;
     top:10px;
-    z-index:3;
+    z-index:10;
 }
 
 
@@ -68,13 +63,26 @@ body.main{
 	border-top: 0px solid black;
 }
 
+.popup_layer {
+    position:absolute;
+    z-index: 1000;
+    background: rgb(200,200,255);
+}
+
 div.folder_layer {
-    background: rgba(200,200,255,0.2);
-    z-index:2;
+    position:fixed;
+    background: rgb(200,200,255);
+    width: 30%;
+    min-width: 250px;
+    height:100%;
+    right:0;
+    z-index:3;
 }
 div.source_layer {
     padding: 5px;
     background: rgba(200,255,200,0.2);
+    height: 100%;
+    width: 100%;
     min-height: 200px;
     z-index:1;
 }
@@ -95,7 +103,13 @@ div.notice_layer{
     font-size:18px;
 }
 div.find_folder_body{
+    height:100%;
     padding : 5px;
+}
+div.find_folder_scroll{
+    overflow-y:auto;
+    position:relative;
+    height:100%;
 }
 
 /* for make_folder.html */
@@ -128,4 +142,9 @@ button.save{
 }
 button.run{
     margin: 3px;
+}
+
+/* for result.html*/
+div.result_body{
+    padding: 5px;
 }

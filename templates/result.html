@@ -5,16 +5,26 @@
     <title>Title</title>
 </head>
 <body>
-    <div>
-    {% if Result %}
-        {% autoescape on %}
-            {{ Result | linebreaksbr}}
-        {% endautoescape %}
-    {% endif %}
+    <div class="result_body">
+        <div class="all_title">
+            Running Result.
+        </div>
+        <button class="result_back btn btn-danger">Back</button>
+        <div>
+            {% if Result %}
+                {% autoescape on %}
+                    {{ Result | linebreaksbr}}
+                {% endautoescape %}
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>
 
 <script>
     notice("Run complete.");
+    show_popup_layer();
+    $(".result_back").click(function(){
+        $(".popup_layer").hide();
+    });
 </script>

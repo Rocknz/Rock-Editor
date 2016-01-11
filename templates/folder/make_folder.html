@@ -17,7 +17,6 @@
 </html>
 <script>
     $(document).ready(function($){
-        resize_source();
         $('.make_folder_btn').click(function(){
             $str = $(".make_folder_text").val();
             $(".folder_layer").load("{% url 'make_folder' %}",{path : '{{ Path }}', csrfmiddlewaretoken : '{{ csrf_token }}', new_folder: $str, type:'{{ Type }}'});

@@ -9,33 +9,37 @@
             <div class="path">
                 {{ Path }}
             </div>
-            <div class="folder_midtitle">
-                the folders
+            <div class="find_folder_scroll">
+                <div class="folder_midtitle">
+                    the folders
+                </div>
+                {% load staticfiles %}
+                <div>
+                    {% if Path !=  "" %}
+                        <button class="folder_button btn" value="cd .." link="null" path="null">..</button>
+                    {% endif %}
+                    {% for n_folder in Folders %}
+                        <button class="folder_button btn" value="cd {{ n_folder }}" link="{{ Path }}/{{ n_folder }}" path="{{ Path }}"> {{ n_folder }}</button>
+                    {% endfor %}
+                    <button class="folder_make btn">
+                        <img src="{% static "images/add_folder.png" %}">
+                    </button>
+                </div>
+                <div class="folder_midtitle">
+                    the files
+                </div>
+                <div>
+                    {% for n_files in Files %}
+                        <button class="file_button btn" value="{{ Path }}/{{ n_files }}" link="{{ Path }}/{{ n_files }}" path="{{ Path }}">{{ n_files }} </button>
+                    {% endfor %}
+                    <button class="file_make btn">
+                        <img src="{% static "images/add_file.png" %}">
+                    </button>
+                </div>
+                <br/>
+                <br/>
+                <br/>
             </div>
-            {% load staticfiles %}
-            <div>
-                {% if Path !=  "" %}
-                    <button class="folder_button btn" value="cd .." link="null" path="null">..</button>
-                {% endif %}
-                {% for n_folder in Folders %}
-                    <button class="folder_button btn" value="cd {{ n_folder }}" link="{{ Path }}/{{ n_folder }}" path="{{ Path }}"> {{ n_folder }}</button>
-                {% endfor %}
-                <button class="folder_make btn">
-                    <img src="{% static "images/add_folder.png" %}">
-                </button>
-            </div>
-            <div class="folder_midtitle">
-                the files
-            </div>
-            <div>
-                {% for n_files in Files %}
-                    <button class="file_button btn" value="{{ Path }}/{{ n_files }}" link="{{ Path }}/{{ n_files }}" path="{{ Path }}">{{ n_files }} </button>
-                {% endfor %}
-                <button class="file_make btn">
-                    <img src="{% static "images/add_file.png" %}">
-                </button>
-            </div>
-            <br/>
         </div>
     </body>
 </html>
@@ -57,6 +61,6 @@
             $str = "{{ Path }}";
             $(".popup_layer").load("{% url 'make_folder' %}",{ type: 'file', path: $str, csrfmiddlewaretoken:'{{csrf_token}}'});
         });
-        resize_source();
     });
+    resize_source($(".folder_layer").width().toString());
 </script>

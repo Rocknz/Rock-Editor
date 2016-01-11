@@ -11,39 +11,32 @@ $(document).ready(function($){
         $source_layer = $(".source_layer");
         $triangle = $(".triangle");
         if($str.localeCompare("close") == 0){
-            $folder_layer.animate({height:"0%"},"fast",function(){
+            $folder_layer.fadeOut(function(){
                 $btn.setAttribute("value","open");
                 $folder_layer.hide();
             });
+            resize_source("0");
             $triangle.css('borderBottomWidth','0px');
             $triangle.css('borderTopWidth','10px');
-            $source_layer.animate({height:"100%"},"fast");
         }
         else if($str.localeCompare("open") == 0){
-            $folder_layer.show();
-            $autoHeight = $folder_layer.css('height', 'auto').height();
-            $folder_layer.height(0);
-            $folder_layer.stop().animate({ height: $autoHeight }, "fast",function(){
+            //$folder_layer.show();
+            $folder_layer.fadeIn(function(){
                 $btn.setAttribute("value","close");
-                $folder_layer.height("auto");
             });
+            resize_source($(".folder_layer").width().toString());
             $triangle.css('borderBottomWidth','10px');
             $triangle.css('borderTopWidth','0px');
-            $str = $source_layer.height() - $autoHeight;
-            $source_layer.animate({height:$str},"fast",function(){
-                resize_source();
-            });
         }
     });
 });
 
 // source_layer resize.
-function resize_source(){
-    $folder = $(".folder_layer");
-    $height = $folder.height().toString();
-    $str = "100% - " + $folder.height().toString() + "px";
-    $(".source_layer").height("calc("+$str+")");
+function resize_source($delete_px){
+    $str = "calc(100% - " + $delete_px + "px - 20px )";
+    $(".source_layer").width($str);
 }
+
 // notification.
 function notice($str){
     $notice_layer = $(".notice_layer");
